@@ -327,3 +327,119 @@ struct Help: View {
 }
 
 ```
+
+### Version 2
+
+```swift
+//
+//  ContentView.swift
+//  SwiftUISideNavigationBarVersion1
+//
+//  Created by paige shin on 2023/06/11.
+//
+
+import SwiftUI
+
+struct ContentView: View {
+    
+    var body: some View {
+        Home()
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
+
+struct Home: View {
+    
+    @State var edges = UIApplication.shared.windows.first?.safeAreaInsets
+    @State var show = false
+    
+    var body: some View {
+        ZStack {
+            VStack {
+                ZStack {
+                    
+                    HStack {
+                        Button {
+                            withAnimation {
+                                self.show = true
+                            }
+                        } label: {
+                            Image(systemName: "line.horizontal.3")
+                                .font(.system(size: 22))
+                                .foregroundColor(.black)
+                        }
+                        
+                        Spacer(minLength: 0)
+                        
+                        Button {
+                            
+                        } label: {
+                            Image("img1")
+                                .resizable()
+                                .renderingMode(.original)
+                                .frame(width: 35, height: 35)
+                                .clipShape(Circle())
+                        }
+                        
+                    } //: HSTACK
+                    
+                    Text("Home")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    
+                } //: ZSTACK
+                .padding()
+                // Since top edges are ignored...
+                .padding(.top, self.edges!.top)
+                .background(Color.white)
+                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 5)
+                
+                Spacer(minLength: 0)
+                
+                
+            } //: VSTACK
+            
+            
+            // Side Menu...
+            HStack(spacing: 0) {
+                Spacer(minLength: 0)
+                
+                VStack {
+                    
+                    // MARK: - CONTENTS SHOULD BE HERE
+                    Button {
+                        withAnimation {
+                            self.show = false
+                        }
+                        
+                    } label: {
+                        Image(systemName: "xmark")
+                            .foregroundColor(.white)
+                    }
+                    .padding()
+                    .padding(.top, self.edges!.top)
+
+                } //: VSTACK
+                .frame(width: UIScreen.main.bounds.width - 100)
+                .frame(maxHeight: .infinity)
+                .background(Color.yellow)
+                .offset(x: self.show ? 0 : UIScreen.main.bounds.width - 100)
+            } //: HSTACK
+            .background(Color.black.opacity(self.show ? 0.3 : 0))
+            
+            
+            
+        } //: ZSTACK
+        .ignoresSafeArea()
+
+        
+    } //: BODY
+    
+}
+
+```
